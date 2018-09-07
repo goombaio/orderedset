@@ -18,6 +18,7 @@
 package orderedset_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/goombaio/orderedset"
@@ -136,6 +137,16 @@ func TestOrderedSet_Size(t *testing.T) {
 	s.Remove("e", "f", "g", "c", "d", "x", "b", "a", "z")
 	if size := s.Size(); size != 0 {
 		t.Errorf("Got %v expected %v", size, 0)
+	}
+}
+
+func TestOrderedSet_Stringer(t *testing.T) {
+	s := orderedset.NewOrderedSet()
+	s.Add("foo", "bar")
+	expected := "[foo bar]"
+	result := fmt.Sprintf("%s", s)
+	if expected != result {
+		t.Fatalf("OrderedSet_Stringer expected to be %q but got %q", expected, result)
 	}
 }
 

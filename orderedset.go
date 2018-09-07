@@ -18,6 +18,7 @@
 package orderedset
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/goombaio/orderedmap"
@@ -90,6 +91,11 @@ func (s *OrderedSet) Values() []interface{} {
 // Size return the size of the OrderedSet
 func (s *OrderedSet) Size() int {
 	return s.store.Size()
+}
+
+// String implements Stringer interface for this instance.
+func (s *OrderedSet) String() string {
+	return fmt.Sprintf("%s", s.Values())
 }
 
 func (s *OrderedSet) put(item interface{}) {
