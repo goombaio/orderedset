@@ -85,6 +85,11 @@ func (s *OrderedSet) Values() []interface{} {
 	return s.store.Values()
 }
 
+// Keys return the keys of the OrderedSet in insertion order
+func (s *OrderedSet) Keys() []interface{} {
+	return s.store.Keys()
+}
+
 // Size return the size of the OrderedSet
 func (s *OrderedSet) Size() int {
 	return s.store.Size()
