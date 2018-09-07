@@ -36,10 +36,12 @@ type OrderedSet struct {
 
 // NewOrderedSet return a new Set implemented by OrderedSet
 func NewOrderedSet() *OrderedSet {
-	return &OrderedSet{
+	orderedset := &OrderedSet{
 		store: orderedmap.NewOrderedMap(),
 		index: make(map[interface{}]int),
 	}
+
+	return orderedset
 }
 
 // Add add items to the OrderedSet
