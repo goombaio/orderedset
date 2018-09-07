@@ -64,7 +64,7 @@ limitations under the License.
 [Coverage-URL]: https://codecov.io/gh/goombaio/orderedset
 [GoReportCard-Image]: https://goreportcard.com/badge/github.com/goombaio/orderedset
 [GoReportCard-URL]: https://goreportcard.com/report/github.com/goombaio/orderedset
-[CII-Image]: https://bestpractices.coreinfrastructure.org/projects/2183/badge
-[CII-URL]: https://bestpractices.coreinfrastructure.org/projects/2183
+[CII-Image]: https://bestpractices.coreinfrastructure.org/projects/2184/badge
+[CII-URL]: https://bestpractices.coreinfrastructure.org/projects/2184
 [GoDoc-Image]: https://godoc.org/github.com/goombaio/orderedset?status.svg
 [GoDoc-URL]: http://godoc.org/github.com/goombaio/orderedset
