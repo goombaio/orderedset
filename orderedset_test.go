@@ -24,11 +24,15 @@ import (
 	"github.com/goombaio/orderedset"
 )
 
+type customType struct {
+	foo string
+}
+
 func TestOrderedSet_Add(t *testing.T) {
 	s := orderedset.NewOrderedSet()
 	s.Add("e", "f", "g", "c", "d", "x", "b", "a")
 	s.Add("b") //overwrite
-	structValue := complexType{"svalue"}
+	structValue := customType{"svalue"}
 	s.Add(structValue)
 	s.Add(&structValue)
 	s.Add(true)
@@ -44,7 +48,7 @@ func TestOrderedSet_Remove(t *testing.T) {
 	s := orderedset.NewOrderedSet()
 	s.Add("e", "f", "g", "c", "d", "x", "b", "a")
 	s.Add("b") //overwrite
-	structValue := complexType{"svalue"}
+	structValue := customType{"svalue"}
 	s.Add(structValue)
 	s.Add(&structValue)
 	s.Add(true)
@@ -70,7 +74,7 @@ func TestOrderedSet_Contains(t *testing.T) {
 	s := orderedset.NewOrderedSet()
 	s.Add("e", "f", "g", "c", "d", "x", "b", "a")
 	s.Add("b") //overwrite
-	structValue := complexType{"svalue"}
+	structValue := customType{"svalue"}
 	s.Add(structValue)
 	s.Add(&structValue)
 	s.Add(true)
@@ -112,7 +116,7 @@ func TestOrderedSet_Values(t *testing.T) {
 	s := orderedset.NewOrderedSet()
 	s.Add("e", "f", "g", "c", "d", "x", "b", "a")
 	s.Add("b") //overwrite
-	structValue := complexType{"svalue"}
+	structValue := customType{"svalue"}
 	s.Add(structValue)
 	s.Add(&structValue)
 	s.Add(true)
@@ -148,109 +152,6 @@ func TestOrderedSet_Stringer(t *testing.T) {
 	if expected != result {
 		t.Fatalf("OrderedSet_Stringer expected to be %q but got %q", expected, result)
 	}
-}
-
-func BenchmarkOrderedSet_Add(b *testing.B) {
-	s := orderedset.NewOrderedSet()
-
-	b.ReportAllocs()
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		s.Add(i ^ 2)
-	}
-}
-
-func BenchmarkOrderedSet_Remove(b *testing.B) {
-	s := orderedset.NewOrderedSet()
-	for i := 0; i < b.N; i++ {
-		s.Add(i ^ 2)
-	}
-
-	b.ReportAllocs()
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		s.Remove(i ^ 2)
-	}
-}
-
-var resultBenchmarkOrderedSetContains bool
-
-func BenchmarkOrderedSet_Contains(b *testing.B) {
-	s := orderedset.NewOrderedSet()
-	for i := 0; i < b.N; i++ {
-		s.Add(i ^ 2)
-	}
-
-	var contains bool
-
-	b.ReportAllocs()
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		contains = s.Contains(i ^ 2)
-	}
-
-	resultBenchmarkOrderedSetContains = contains
-}
-
-var resultBenchmarkOrderedSetEmpty bool
-
-func BenchmarkOrderedSet_Empty(b *testing.B) {
-	s := orderedset.NewOrderedSet()
-	for i := 0; i < b.N; i++ {
-		s.Add(i ^ 2)
-	}
-
-	var empty bool
-
-	b.ReportAllocs()
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		empty = s.Empty()
-	}
-
-	resultBenchmarkOrderedSetEmpty = empty
-}
-
-var resultBenchmarkOrderedSetSize int
-
-func BenchmarkOrderedSet_Size(b *testing.B) {
-	s := orderedset.NewOrderedSet()
-	for i := 0; i < b.N; i++ {
-		s.Add(i ^ 2)
-	}
-
-	var size int
-
-	b.ReportAllocs()
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		size = s.Size()
-	}
-
-	resultBenchmarkOrderedSetSize = size
-}
-
-var resultBenchmarkOrderedSetValues []interface{}
-
-func BenchmarkOrderedSet_Values(b *testing.B) {
-	s := orderedset.NewOrderedSet()
-	for i := 0; i < b.N; i++ {
-		s.Add(i ^ 2)
-	}
-
-	var values []interface{}
-
-	b.ReportAllocs()
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		values = s.Values()
-	}
-
-	resultBenchmarkOrderedSetValues = values
-}
-
-type complexType struct {
-	foo string
 }
 
 func sameElements(a []interface{}, b []interface{}) bool {

@@ -48,10 +48,11 @@ cover-html:		## Generate coverage report
 codecov:
 	bash <(curl -s https://codecov.io/bash)
 
-# Lint
+# BenchMarking
 
-lint:			## Lint source code
-	gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow
+.PHONY: benchmark
+benchmark:		## Execute package benchmarks 
+	go test -v $(PACKAGES) -benchmem -bench . 
 
 # Dependencies
 
