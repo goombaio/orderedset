@@ -56,13 +56,11 @@ lint:			## Lint source code
 # Dependencies
 
 deps:			## Install build dependencies
-	go get -u github.com/google/uuid
-	go get -u github.com/goombaio/orderedmap
+	go mod download
+	go mod verify
 
 dev-deps: deps
 dev-deps:		## Install dev and build dependencies
-	go get -u github.com/alecthomas/gometalinter
-	gometalinter --install
 
 .PHONY: clean
 clean:			## Delete generated development environment
