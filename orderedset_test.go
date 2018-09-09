@@ -144,7 +144,7 @@ func TestOrderedSet_Size(t *testing.T) {
 	}
 }
 
-func TestOrderedSet_Stringer(t *testing.T) {
+func TestOrderedSet_String(t *testing.T) {
 	s := orderedset.NewOrderedSet()
 	s.Add("foo", "bar")
 	expected := "[foo bar]"
