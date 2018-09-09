@@ -32,9 +32,18 @@ import (
 )
 
 func main() {
-    m := orderedset.NewOrderedSet()
-    m.Put("foo", "bar")
-    // ...
+    s := orderedset.NewOrderedSet()
+    s.Add("First element")
+    s.Add("Second element")
+    s.Add("Last element")
+
+    for _, entry := range s.Values() {
+        fmt.Println(entry)
+    }
+    // Output:
+    // First element
+    // Second element
+    // Last element
 }
 ```
 
