@@ -18,7 +18,6 @@
 package orderedset_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/goombaio/orderedset"
@@ -148,7 +147,7 @@ func TestOrderedSet_String(t *testing.T) {
 	s := orderedset.NewOrderedSet()
 	s.Add("foo", "bar")
 	expected := "[foo bar]"
-	result := fmt.Sprintf("%s", s)
+	result := s.String()
 	if expected != result {
 		t.Fatalf("OrderedSet_Stringer expected to be %q but got %q", expected, result)
 	}
