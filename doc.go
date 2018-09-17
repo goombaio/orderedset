@@ -15,15 +15,19 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// Package orderedset implements a dynamic, insertion-ordered, set abstract
-// data type.
-//
-// A set is an abstract data type that can store unique values.
-//
-// The curent implementation:
-// - Is a dynamic set. It implements actions to Add() or Remove() elements from
-// it among others.
-// - Is ordered. Instead the generic set, this implementation is insertion
-// ordered, meaning that when iterating over its elements, it will return
-// them in order they where inserted originally.
+/*
+Package orderedset implements a dynamic, insertion-ordered, set abstract data
+type.
+
+A set is an abstract data type that can store unique values.
+
+The curent implementation:
+
+- Is a dynamic set.
+  It implements actions to Add() or Remove() elements from it among others.
+- Is ordered.
+  Instead the generic set, this implementation is insertion ordered, meaning
+  that when iterating over its elements, it will return them in order they
+  where inserted originally.
+*/
 package orderedset
