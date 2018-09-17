@@ -17,9 +17,7 @@
 
 /*
 Package orderedset implements a dynamic, insertion-ordered, set abstract data
-type.
-
-A set is an abstract data type that can store unique values.
+type. A set is an abstract data type that can store unique values.
 
 The curent implementation:
 
@@ -28,6 +26,29 @@ The curent implementation:
   - Is ordered.
     Instead the generic set, this implementation is insertion ordered,
     meaning that when iterating over its elements, it will return them in
-    order they where inserted originally.
+	order they where inserted originally.
+
+Example
+
+	package main
+
+	import (
+		"github.com/goombaio/orderedset"
+	)
+
+	func main() {
+		s := orderedset.NewOrderedSet()
+		s.Add("First element")
+		s.Add("Second element")
+		s.Add("Last element")
+
+		for _, entry := range s.Values() {
+			fmt.Println(entry)
+		}
+		// Output:
+		// First element
+		// Second element
+		// Last element
+	}
 */
 package orderedset
