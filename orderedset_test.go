@@ -27,6 +27,18 @@ type customType struct {
 	foo string
 }
 
+func TestOrderedSet(t *testing.T) {
+	s := orderedset.NewOrderedSet()
+
+	if !s.Empty() {
+		t.Fatalf("New set expected to be empty but it is not")
+	}
+
+	if s.Size() != 0 {
+		t.Fatalf("New set expected to have 0 elements but got %d", s.Size())
+	}
+}
+
 func TestOrderedSet_Add(t *testing.T) {
 	s := orderedset.NewOrderedSet()
 	s.Add("e", "f", "g", "c", "d", "x", "b", "a")
@@ -60,7 +72,7 @@ func TestOrderedSet_Remove(t *testing.T) {
 		t.Errorf("Got %v expected %v", actualOutput, expectedOutput)
 	}
 
-	// already removed
+	// already removed, doesn't fails.
 	s.Remove("f", "g", &structValue, true)
 	actualOutput = s.Values()
 	expectedOutput = []interface{}{"e", "c", "d", "x", "b", "a", structValue}
@@ -98,13 +110,16 @@ func TestOrderedSet_Contains(t *testing.T) {
 
 func TestOrderedSet_Empty(t *testing.T) {
 	s := orderedset.NewOrderedSet()
+
 	if empty := s.Empty(); !empty {
 		t.Errorf("Got %v expected %v", empty, true)
 	}
+
 	s.Add("e", "f", "g", "c", "d", "x", "b", "a")
 	if empty := s.Empty(); empty {
 		t.Errorf("Got %v expected %v", empty, false)
 	}
+
 	s.Remove("e", "f", "g", "c", "d", "x", "b", "a")
 	if empty := s.Empty(); !empty {
 		t.Errorf("Got %v expected %v", empty, true)
@@ -129,14 +144,17 @@ func TestOrderedSet_Values(t *testing.T) {
 
 func TestOrderedSet_Size(t *testing.T) {
 	s := orderedset.NewOrderedSet()
+
 	if size := s.Size(); size != 0 {
 		t.Errorf("Got %v expected %v", size, 0)
 	}
+
 	s.Add("e", "f", "g", "c", "d", "x", "b", "a")
 	s.Add("e", "f", "g", "c", "d", "x", "b", "a", "z") // overwrite
 	if size := s.Size(); size != 9 {
 		t.Errorf("Got %v expected %v", size, 9)
 	}
+
 	s.Remove("e", "f", "g", "c", "d", "x", "b", "a", "z")
 	if size := s.Size(); size != 0 {
 		t.Errorf("Got %v expected %v", size, 0)
@@ -145,6 +163,7 @@ func TestOrderedSet_Size(t *testing.T) {
 
 func TestOrderedSet_String(t *testing.T) {
 	s := orderedset.NewOrderedSet()
+
 	s.Add("foo", "bar")
 	expected := "[foo bar]"
 	result := s.String()
@@ -157,6 +176,7 @@ func sameElements(a []interface{}, b []interface{}) bool {
 	if len(a) != len(b) {
 		return false
 	}
+
 	for _, av := range a {
 		found := false
 		for _, bv := range b {
@@ -169,5 +189,6 @@ func sameElements(a []interface{}, b []interface{}) bool {
 			return false
 		}
 	}
+
 	return true
 }

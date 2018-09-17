@@ -24,28 +24,34 @@ import (
 	"github.com/goombaio/orderedmap"
 )
 
-// OrderedSet insertion ordered Set implementation
+// OrderedSet represents a dynamic, insertion-ordered, set abstract data type.
 type OrderedSet struct {
-	sync.Mutex
-
-	// the underlying store of the Set
-	store *orderedmap.OrderedMap
-	index map[interface{}]int
-	// currentIndex keeps track of the keys of the underlying store
+	// currentIndex keeps track of the keys of the underlying store.
 	currentIndex int
+
+	// mu Mutex protects data structures below.
+	mu sync.Mutex
+
+	// index is the Set list of keys.
+	index map[interface{}]int
+
+	// store is the Set underlying store of values.
+	store *orderedmap.OrderedMap
 }
 
-// NewOrderedSet return a new Set implemented by OrderedSet
+// NewOrderedSet creates a new empty OrderedSet.
 func NewOrderedSet() *OrderedSet {
 	orderedset := &OrderedSet{
-		store: orderedmap.NewOrderedMap(),
 		index: make(map[interface{}]int),
+		store: orderedmap.NewOrderedMap(),
 	}
 
 	return orderedset
 }
 
-// Add add items to the OrderedSet
+// Add adds items to the set.
+//
+// If an item is found in the set it replaces it.
 func (s *OrderedSet) Add(items ...interface{}) {
 	for _, item := range items {
 		if _, found := s.index[item]; found {
@@ -56,7 +62,9 @@ func (s *OrderedSet) Add(items ...interface{}) {
 	}
 }
 
-// Remove remove items from the OrderedSet
+// Remove deletes items from the set.
+//
+// If an item is not found in the set it doesn't fails, just does nothing.
 func (s *OrderedSet) Remove(items ...interface{}) {
 	for _, item := range items {
 		index, found := s.index[item]
@@ -64,12 +72,15 @@ func (s *OrderedSet) Remove(items ...interface{}) {
 			return
 		}
 
-		s.remove(item, index)
+		s.remove(index, item)
 	}
 }
 
-// Contains return if OrderedSet contains the specified items or not
+// Contains return if set contains the specified items or not.
 func (s *OrderedSet) Contains(items ...interface{}) bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	for _, item := range items {
 		if _, found := s.index[item]; !found {
 			return false
@@ -78,38 +89,43 @@ func (s *OrderedSet) Contains(items ...interface{}) bool {
 	return true
 }
 
-// Empty return if the OrderedSet in empty or not
+// Empty return if the set in empty or not.
 func (s *OrderedSet) Empty() bool {
 	return s.store.Empty()
 }
 
-// Values return the values of the OrderedSet in insertion order
+// Values return the set values in insertion order.
 func (s *OrderedSet) Values() []interface{} {
 	return s.store.Values()
 }
 
-// Size return the size of the OrderedSet
+// Size return the set number of elements.
 func (s *OrderedSet) Size() int {
 	return s.store.Size()
 }
 
-// String implements Stringer interface for this instance.
+// String implements Stringer interface.
+//
+// Prints the set string representation, a concatenated string of all its
+// string representation values in insertion order.
 func (s *OrderedSet) String() string {
 	return fmt.Sprintf("%s", s.Values())
 }
 
+// Put adds a single item into the set
 func (s *OrderedSet) put(item interface{}) {
-	s.Lock()
-	defer s.Unlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	s.store.Put(s.currentIndex, item)
 	s.index[item] = s.currentIndex
 	s.currentIndex++
 }
 
-func (s *OrderedSet) remove(item interface{}, index int) {
-	s.Lock()
-	defer s.Unlock()
+// remove deletes a single item from the test given its index
+func (s *OrderedSet) remove(index int, item interface{}) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	s.store.Remove(index)
 	delete(s.index, item)

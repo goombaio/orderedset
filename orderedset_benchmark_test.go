@@ -121,3 +121,22 @@ func BenchmarkOrderedSet_Values(b *testing.B) {
 
 	resultBenchmarkOrderedSetValues = values
 }
+
+var resultBenchmarkOrderedSetString string
+
+func BenchmarkOrderedSet_String(b *testing.B) {
+	s := orderedset.NewOrderedSet()
+	for i := 0; i < b.N; i++ {
+		s.Add(i ^ 2)
+	}
+
+	var str string
+
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		str = s.String()
+	}
+
+	resultBenchmarkOrderedSetString = str
+}
