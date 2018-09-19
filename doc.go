@@ -19,7 +19,7 @@
 Package orderedset implements a dynamic, insertion-ordered, set abstract data
 type. A set is an abstract data type that can store unique values.
 
-The curent implementation:
+Curent implementation
 
 	* Is a dynamic set.
 	  It implements actions to Add() or Remove() elements from it among others.
@@ -28,7 +28,7 @@ The curent implementation:
 	  meaning that when iterating over its elements, it will return them in
 	  order they where inserted originally.
 
-Examples:
+Example
 
 	package main
 
